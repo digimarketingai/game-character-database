@@ -38,12 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalContainer = document.createElement('div');
         modalContainer.className = 'modal';
         modalContainer.id = 'characterModal';
+        // NEW: Added a <p> tag with an id of "modalIntro" to hold the introduction text.
         modalContainer.innerHTML = `
             <div class="modal-content">
                 <span class="modal-close" id="modalClose">&times;</span>
                 <img id="modalImg" src="" alt="Character Image">
                 <h2 id="modalEnglishName"></h2>
                 <p id="modalChineseName" class="modal-chinese-name"></p>
+                <p id="modalIntro" class="modal-intro"></p>
             </div>
         `;
         document.body.append(mainContainer, modalContainer);
@@ -72,15 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .character-card .name-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); padding: 2rem 1rem 1rem 1rem; text-align: center; }
         .character-card h3 { margin: 0; font-size: 1.1rem; font-weight: 600; color: #fff; }
         .character-card .chinese-name { font-size: 0.9rem; color: #ccc; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 1000; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 1000; padding: 1rem; box-sizing: border-box; }
         .modal.active { opacity: 1; visibility: visible; }
-        .modal-content { background-color: var(--card-color); padding: 2rem; border-radius: 15px; max-width: 90%; width: 500px; text-align: center; position: relative; transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal-content { background-color: var(--card-color); padding: 2rem; border-radius: 15px; max-width: 90%; width: 600px; text-align: center; position: relative; transform: scale(0.9); transition: transform 0.3s ease; }
         .modal.active .modal-content { transform: scale(1); }
         .modal-close { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #aaa; cursor: pointer; line-height: 1; transition: color 0.3s ease; }
         .modal-close:hover { color: var(--text-color); }
-        .modal-content img { width: 100%; max-height: 400px; object-fit: contain; border-radius: 10px; margin-bottom: 1.5rem; }
+        .modal-content img { width: 100%; max-height: 350px; object-fit: contain; border-radius: 10px; margin-bottom: 1.5rem; }
         .modal-content h2 { font-size: 2rem; margin: 0; color: var(--accent-color); }
-        .modal-content .modal-chinese-name { font-size: 1.2rem; color: #ccc; margin-top: 0.5rem; }
+        .modal-content .modal-chinese-name { font-size: 1.2rem; color: #ccc; margin-top: 0.5rem; margin-bottom: 1.5rem; }
+        /* NEW: Styles for the introduction text. */
+        .modal-intro { font-size: 1rem; color: #ddd; text-align: left; line-height: 1.6; border-top: 1px solid #444; padding-top: 1.5rem; margin-top: 1.5rem; }
     `;
     const styleSheet = document.createElement("style");
     styleSheet.innerText = styles;
@@ -89,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================================================
     //  PART 2: SCRIPT LOGIC
     // =======================================================================
-    // FIX: Check for the database on the 'window' object.
     if (typeof window.characterDatabase === 'undefined') {
         document.body.innerHTML = `<h1 style="color: red; text-align: center; padding: 2rem;">Database Error: 'characterDatabase' is not defined in index.html.</h1>`;
         return;
@@ -101,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEnglishName = document.getElementById('modalEnglishName');
     const modalChineseName = document.getElementById('modalChineseName');
     const modalClose = document.getElementById('modalClose');
+    const modalIntro = document.getElementById('modalIntro'); // NEW: Get the intro element.
 
     function renderCharacters(characters) {
         grid.innerHTML = '';
-        // FIX: Add a check to ensure 'characters' is a valid array before accessing .length
         if (!characters || characters.length === 0) {
             grid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #aaa;">No characters found.</p>`;
             return;
@@ -125,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         modalImg.src = character.picUrl;
         modalEnglishName.textContent = character.englishName;
         modalChineseName.textContent = character.chineseName;
+        // NEW: Set the intro text. If a character has no intro, it will be blank.
+        modalIntro.textContent = character.intro || "";
         modal.classList.add('active');
     }
 
@@ -132,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        // FIX: Filter from 'window.characterDatabase' to ensure we're using the global variable.
         const filteredCharacters = window.characterDatabase.filter(char => 
             char.englishName.toLowerCase().includes(searchTerm) ||
             char.chineseName.toLowerCase().includes(searchTerm)
@@ -143,6 +147,5 @@ document.addEventListener('DOMContentLoaded', () => {
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     
-    // FIX: Pass 'window.characterDatabase' to the initial render call.
     renderCharacters(window.characterDatabase);
 });
