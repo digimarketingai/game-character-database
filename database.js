@@ -89,8 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================================================
     //  PART 2: SCRIPT LOGIC
     // =======================================================================
-    if (typeof characterDatabase === 'undefined') {
-        document.body.innerHTML = `<h1 style="color: red; text-align: center; padding: 2rem;">Database Error: 'characterDatabase' is not defined.</h1>`;
+    // FIX: Check for the database on the 'window' object.
+    if (typeof window.characterDatabase === 'undefined') {
+        document.body.innerHTML = `<h1 style="color: red; text-align: center; padding: 2rem;">Database Error: 'characterDatabase' is not defined in index.html.</h1>`;
         return;
     }
     const grid = document.getElementById('character-grid');
@@ -103,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderCharacters(characters) {
         grid.innerHTML = '';
-        if (characters.length === 0) {
+        // FIX: Add a check to ensure 'characters' is a valid array before accessing .length
+        if (!characters || characters.length === 0) {
             grid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #aaa;">No characters found.</p>`;
             return;
         }
@@ -130,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
+        // FIX: Filter from 'window.characterDatabase' to ensure we're using the global variable.
         const filteredCharacters = window.characterDatabase.filter(char => 
             char.englishName.toLowerCase().includes(searchTerm) ||
             char.chineseName.toLowerCase().includes(searchTerm)
@@ -139,5 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    
+    // FIX: Pass 'window.characterDatabase' to the initial render call.
     renderCharacters(window.characterDatabase);
 });
