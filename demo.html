@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Character Glossary</title>
+</head>
+<body>
+    <!-- Just a simple container - that's all you need! -->
+    <div id="glossary"></div>
+
+    <!-- Include the library -->
+    <script src="https://digimarketingai.github.io/game-character-database/glossarydb.js"></script>
+
+    <!-- Your configuration -->
+    <script>
+        GlossaryDB.init('glossary', {
+            // ========== CUSTOMIZE YOUR HEADING ==========
+            title: '🎮 Game Character Glossary',
+            searchPlaceholder: 'Search characters...',
+            noResultsText: 'No characters found!',
+            showStats: true,
+            
+            // Theme options: 'dark', 'light', 'ocean', 'sunset', 'forest', 'purple'
+            theme: 'dark',
+            
+            // Map your data fields: [image, title, subtitle, description]
+            columns: ['image', 'name', 'role', 'description'],
+
+            // ========== YOUR DATA ==========
+            data: [
+                {
+                    name: "Mario",
+                    role: "Hero",
+                    description: "A brave plumber who saves Princess Peach from Bowser.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png"
+                },
+                {
+                    name: "Link",
+                    role: "Warrior",
+                    description: "The legendary hero of Hyrule who wields the Master Sword.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/3/3c/Link_-_The_Legend_of_Zelda_Tears_of_the_Kingdom.png"
+                },
+                {
+                    name: "Sonic",
+                    role: "Speedster",
+                    description: "The fastest hedgehog alive who collects golden rings.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/7/76/Sonic_the_Hedgehog_%28painted%29.png"
+                },
+                {
+                    name: "Pikachu",
+                    role: "Pokemon",
+                    description: "An electric mouse Pokemon with powerful thunder attacks.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/a/a6/Pok%C3%A9mon_Pikachu_art.png"
+                },
+                {
+                    name: "Kirby",
+                    role: "Hero",
+                    description: "A pink puffball who can absorb enemy powers.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/8/8e/Kirby_Wii.png"
+                },
+                {
+                    name: "Bowser",
+                    role: "Villain",
+                    description: "The King of Koopas who kidnaps Princess Peach.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/1/11/Bowser_in_Super_Smash_Bros._Ultimate.png"
+                },
+                {
+                    name: "Mega Man",
+                    role: "Robot",
+                    description: "A robot hero who fights evil robots to save the world.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/7/7f/Megaman_for_SSB4.png"
+                },
+                {
+                    name: "Samus",
+                    role: "Bounty Hunter",
+                    description: "A powerful bounty hunter in an advanced power suit.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/d/d5/Samus_Aran.png"
+                },
+                {
+                    name: "Donkey Kong",
+                    role: "Hero",
+                    description: "A strong gorilla who protects his banana hoard.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/6/6a/Donkey_Kong_character.png"
+                },
+                {
+                    name: "Pac-Man",
+                    role: "Hero",
+                    description: "A yellow circle who eats dots and avoids ghosts.",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/4/49/Pacman.svg"
+                },
+                {
+                    name: "Cloud Strife",
+                    role: "Soldier",
+                    description: "A former soldier wielding the massive Buster Sword.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/e/ef/Final_Fantasy_VII_Remake_Cloud_Art.png"
+                },
+                {
+                    name: "Yoshi",
+                    role: "Companion",
+                    description: "Mario's dinosaur friend who can eat enemies.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/d/db/Yoshi_%28Nintendo_character%29.png"
+                }
+            ]
+        });
+    </script>
+</body>
+</html>
